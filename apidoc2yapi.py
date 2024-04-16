@@ -53,7 +53,13 @@ def api_data_request_response_to_yapi(api_data, api_data_type, msg):
         return {}
 
     for field in api_data['fields'][api_data_type]:
-        param_type = field['type'].lower()
+        if 'type' not in field:
+            if 'field' in field:
+                param_type = field['field'].lower()
+            else:
+                continue
+        else:
+            param_type = field['type'].lower()
         description = cu.noqa_conversion(field['description'])
         key = field['field']
         parent_location = properties
